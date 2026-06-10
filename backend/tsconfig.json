@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    // Environment Settings
+    "module": "nodenext",
+    "target": "esnext",
+    "types": [],
+
+    // Dirs
+    "outDir": "./dist",
+    "rootDir": "./src",
+
+    // Other Outputs
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    // Stricter Typechecking Options
+    "exactOptionalPropertyTypes": true,
+
+    // Style Options
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    // Recommended Options
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  }
+}
