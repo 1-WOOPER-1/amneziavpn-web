@@ -13,7 +13,7 @@
 
 ```bash
 git clone https://github.com/1-WOOPER-1/amneziavpn-web.git
-cd amnezia-web
+cd amneziavpn-web
 ```
 
 ### 2. Запуск backend части:
@@ -30,7 +30,7 @@ cd backend
 ```env
 PORT=3001
 CONTAINER_NAME=amnezia-awg2
-INTERFACE_NAME=awg2
+INTERFACE_NAME=awg0
 ```
 
 Установить зависимости:
