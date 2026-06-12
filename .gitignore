@@ -3,3 +3,12 @@ dist
 .vscode
 .env
 test
+
+npm-debug.log*
+.DS_Store
+*.pem
+
+.next
+next-env.d.ts
+build
+
