@@ -1,6 +1,7 @@
 export interface ClientPeer {
   publicKey: string;
   name: string;
+  creationDate: string;
   presharedKey: string;
   endpoint: string;
   allowedIps: string[];

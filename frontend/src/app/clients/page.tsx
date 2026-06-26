@@ -5,21 +5,22 @@ import { ClientPeer, ConnectionsResponse } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { getAPIDomain } from "@/lib/domain";
 import { Plus, Users } from "lucide-react";
+import { ClientCard } from "@/components/ui/client-card";
 
 export default function ClientsPage() {
-  const [users, setUsers] = useState<ClientPeer[]>([]);
+  const [clients, setClients] = useState<ClientPeer[]>([]);
 
-  async function fetchUsers() {
+  async function fetchClients() {
     const response = await fetch(`${getAPIDomain()}/api/connections`);
     const json: ConnectionsResponse = await response.json();
     const { peers } = json.data;
 
-    setUsers(peers);
+    setClients(peers);
   }
 
   useEffect(() => {
     async function fetchData() {
-      await fetchUsers();
+      await fetchClients();
     }
     fetchData();
   }, []);
@@ -43,43 +44,13 @@ export default function ClientsPage() {
         </Button>
       </div>
 
-      {users.map((user: ClientPeer) => (
-        <div key={user.publicKey} className="">
-          <div></div>
-        </div>
-      ))}
+      <div className="flex flex-col gap-2">
+        {clients.map((client: ClientPeer) => (
+          <ClientCard key={client.publicKey} client={client} />
+        ))}
+      </div>
 
-      <Button onClick={fetchUsers}>Fetch</Button>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Public Key</th>
-            <th>Endpoint</th>
-            <th>Allowed IPs</th>
-            <th>Latest Handshake</th>
-            <th>Transfer RX</th>
-            <th>Transfer TX</th>
-            <th>Persistent Keepalive</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user: ClientPeer) => (
-            <tr key={user.publicKey}>
-              <td>{user.name}</td>
-              <td>{user.publicKey}</td>
-              <td>{user.endpoint}</td>
-              <td>{user.allowedIps.join(", ")}</td>
-              <td>{new Date(user.latestHandshake * 1000).toLocaleString()}</td>
-              <td>{(user.transferRx / (1024 * 1024)).toFixed(2)} MB</td>
-              <td>{(user.transferTx / (1024 * 1024)).toFixed(2)} MB</td>
-              <td>{user.persistentKeepalive}</td>
-              <td>{user.isOnline ? "Online" : "Offline"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Button onClick={fetchClients}>Fetch</Button>
     </div>
   );
 }
