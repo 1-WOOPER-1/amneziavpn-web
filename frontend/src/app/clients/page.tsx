@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ClientPeer, ConnectionsResponse } from "@/types/types";
 import { Button } from "@/components/ui/button";
 import { getAPIDomain } from "@/lib/domain";
+import { Plus, Users } from "lucide-react";
 
 export default function ClientsPage() {
   const [users, setUsers] = useState<ClientPeer[]>([]);
@@ -24,8 +25,30 @@ export default function ClientsPage() {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">AmneziaVPN</h1>
+    <div className="overflow-x-auto">
+      <div className="flex items-center justify-between py-3 my-3 border-b">
+        <div>
+          <h2 className="text-3xl font-bold flex items-center gap-2">
+            <Users size={34} />
+            VPN Tunnel Access Cards
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Centrally generate security keys, view configuration profiles, and
+            scan QR Codes.
+          </p>
+        </div>
+        <Button>
+          <Plus />
+          Generate Access Key
+        </Button>
+      </div>
+
+      {users.map((user: ClientPeer) => (
+        <div key={user.publicKey} className="">
+          <div></div>
+        </div>
+      ))}
+
       <Button onClick={fetchUsers}>Fetch</Button>
       <table>
         <thead>
