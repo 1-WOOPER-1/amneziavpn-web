@@ -1,9 +1,11 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import dotenv from "dotenv";
+import si from "systeminformation";
 import { getAwgClientsTable } from "./utils/clientsTable";
 import { parseAwgDump } from "./utils/dump";
 import { runCmd } from "./utils/cmd";
+import { SystemStats } from "./types/server.types";
 
 dotenv.config();
 
@@ -31,6 +33,48 @@ fastify.get("/api/connections", async (_request, reply) => {
 
     const parsedData = parseAwgDump(dumpResult.stdout, clientsMap);
     return { success: true, data: parsedData };
+  } catch (err: any) {
+    return reply.status(500).send({ success: false, error: err.message });
+  }
+});
+
+fastify.get("/api/system-stats", async (_request, reply) => {
+  try {
+    const [cpu, ram, disk, network] = await Promise.all([
+      si.currentLoad(),
+      si.mem(),
+      si.fsSize(),
+      si.networkStats(),
+    ]);
+
+    const rootDisk = disk.find((drive: any) => drive.mount === "/") || disk[0];
+    const activeNet = network[0] || { rx_sec: 0, tx_sec: 0 };
+
+    const stats: SystemStats = {
+      cpu: {
+        load: Math.round(cpu.currentLoad),
+      },
+      ram: {
+        total: ram.total,
+        used: ram.active,
+        free: ram.available,
+        percent: Math.round((ram.used / ram.total) * 100),
+      },
+      disk: {
+        total: rootDisk.size,
+        used: rootDisk.used,
+        free: rootDisk.available,
+        percent: Math.round(rootDisk.use),
+      },
+      network: {
+        rx_sec: activeNet.rx_sec || 0,
+        tx_sec: activeNet.tx_sec || 0,
+      },
+    };
+    return {
+      succes: true,
+      data: stats,
+    };
   } catch (err: any) {
     return reply.status(500).send({ success: false, error: err.message });
   }

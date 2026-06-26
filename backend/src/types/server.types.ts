@@ -12,3 +12,25 @@ export interface ServerInfo {
   h3: string;
   h4: string;
 }
+
+export interface SystemStats {
+  cpu: {
+    load: number;
+  };
+  ram: {
+    total: number;
+    used: number;
+    free: number;
+    percent: number;
+  };
+  disk: {
+    total: number;
+    used: number;
+    free: number;
+    percent: number;
+  };
+  network: {
+    rx_sec: number;
+    tx_sec: number;
+  };
+}
