@@ -3,7 +3,7 @@ import type { ClientPeer } from "../types/clients.types";
 
 export function parseAwgDump(
   stdout: string,
-  clientsMap: Record<string, string>,
+  clientsMap: Record<string, Record<string, string>>,
 ) {
   const lines = stdout.trim().split("\n");
   if (lines.length === 0 || lines[0] === "") {
@@ -51,11 +51,14 @@ export function parseAwgDump(
     const isOnline =
       endpoint !== "(none)" && Date.now() / 1000 - latestHandshake < 180;
 
-    const name = clientsMap[publicKey ?? ""] || "Unknown client";
+    const name = clientsMap[publicKey ?? ""].name || "Unknown client";
+    const creationDate =
+      clientsMap[publicKey ?? ""].creationDate || new Date(0).toISOString();
 
     peers.push({
       publicKey,
       name,
+      creationDate,
       presharedKey: presharedKey === "(none)" ? "" : presharedKey,
       endpoint: endpoint === "(none)" ? "" : endpoint,
       allowedIps: allowedIps.split(","),
