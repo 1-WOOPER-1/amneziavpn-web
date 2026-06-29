@@ -34,3 +34,37 @@ export interface ConnectionsResponse {
     peers: ClientPeer[];
   };
 }
+
+export interface SystemStats {
+  cpu: {
+    load: number;
+  };
+  ram: {
+    total: number;
+    used: number;
+    free: number;
+    percent: number;
+  };
+  disk: {
+    total: number;
+    used: number;
+    free: number;
+    percent: number;
+  };
+  network: {
+    rx_sec: number;
+    tx_sec: number;
+  };
+}
+
+export interface SystemStatsFormatted {
+  cpu: { load: number };
+  ram: { total: string; used: string; percent: number };
+  disk: { total: string; used: string; percent: number };
+  network: { rx_sec: string; tx_sec: string };
+}
+
+export interface SystemStatsResponse {
+  success: boolean;
+  data: SystemStats;
+}

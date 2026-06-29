@@ -1,7 +1,7 @@
 import { ClientPeer } from "@/types/types";
 import { Button } from "./button";
 import { ArrowDownRight, ArrowUpRight, UserCheck } from "lucide-react";
-import { formatBytes } from "@/lib/formatBytes";
+import { formatBytes } from "@/lib/units";
 
 export function ClientCard({ client }: { client: ClientPeer }) {
   return (
